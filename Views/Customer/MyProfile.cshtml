@@ -1,0 +1,87 @@
+@model GqeberhaPharmacy.Models.Customer
+
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "My Profile";
+}
+
+@section Sidebar {
+    <h5 class="mb-4">Customer Menu</h5>
+    <a href="/Customer/Index"><i class="fas fa-home"></i> Dashboard</a>
+    <a href="/Customer/MyProfile" class="active"><i class="fas fa-user"></i> My Profile</a>
+}
+
+<div class="container">
+    <h1><i class="fas fa-user"></i> My Profile</h1>
+    <hr>
+
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-body">
+                    <form method="post" action="/Customer/UpdateProfile/@Model.Id">
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label">First Name</label>
+                                <input type="text" class="form-control" name="FirstName" value="@Model.FirstName" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Last Name</label>
+                                <input type="text" class="form-control" name="LastName" value="@Model.LastName" required>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Email Address</label>
+                            <input type="email" class="form-control" value="@Model.EmailAddress" disabled>
+                            <small class="text-muted">Email address cannot be changed</small>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label">ID Number</label>
+                                <input type="text" class="form-control" value="@Model.IdNumber" disabled>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Cellphone Number</label>
+                                <input type="tel" class="form-control" name="CellphoneNumber" value="@Model.CellphoneNumber">
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Allergies</label>
+                            <textarea class="form-control" name="Allergies" rows="3" placeholder="Enter any allergies (comma-separated)">@Model.Allergies</textarea>
+                            <small class="form-text text-muted">Important: Keep this updated for your safety</small>
+                        </div>
+
+                        <div class="text-end">
+                            <a href="/Customer/Index" class="btn btn-secondary">Cancel</a>
+                            <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Save Changes</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card bg-light">
+                <div class="card-header bg-primary text-white">
+                    <h5><i class="fas fa-info-circle"></i> Account Information</h5>
+                </div>
+                <div class="card-body">
+                    <p><strong>Member Since:</strong><br>@Model.CreatedDate.ToString("dd/MM/yyyy")</p>
+                    <p><strong>Account Status:</strong><br>
+                        @if (Model.IsActive)
+                        {
+                            <span class="badge bg-success">Active</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-danger">Inactive</span>
+                        }
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

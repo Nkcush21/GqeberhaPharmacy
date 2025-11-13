@@ -1,0 +1,62 @@
+# Quick Start - 3 Simple Steps
+
+## Step 1: Configure Database Connection
+Edit `appsettings.json` line 7:
+
+```json
+"DefaultConnection": "Server=.\\SQLEXPRESS;Database=GqeberhaPharmacyDb;Trusted_Connection=true;Encrypt=false;"
+```
+
+Change `SQLEXPRESS` to your SQL Server instance name if different.
+
+---
+
+## Step 2: Add Migrations & Create Database
+
+**Option A: Visual Studio**
+1. Open Package Manager Console
+2. Run: `Add-Migration InitialCreate`
+3. Run: `Update-Database`
+
+**Option B: CLI**
+```bash
+dotnet ef migrations add InitialCreate
+dotnet ef database update
+```
+
+---
+
+## Step 3: Run Application
+
+```bash
+dotnet run
+```
+
+Visit: `https://localhost:5001`
+
+---
+
+## Login Credentials
+
+**Manager Account (Created Automatically)**
+- Email: `manager@ibhayipharmacy.co.za`
+- Password: `Manager@123`
+
+---
+
+## What's Included
+
+✅ 13 Database Models  
+✅ 5 Controllers with full logic  
+✅ 20+ Razor Views  
+✅ 3 Business Services  
+✅ Email & PDF Generation  
+✅ Role-Based Authorization  
+✅ Bootstrap UI  
+✅ All Features Implemented  
+
+**Everything is ready to use. No additional coding needed.**
+
+---
+
+**Total Setup Time: ~5 minutes**

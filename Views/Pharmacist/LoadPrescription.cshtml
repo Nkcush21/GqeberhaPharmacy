@@ -1,0 +1,122 @@
+@model GqeberhaPharmacy.Controllers.LoadPrescriptionViewModel
+
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Load Prescription";
+}
+
+@section Sidebar {
+    <h5 class="mb-4">Pharmacist Menu</h5>
+    <a href="/Pharmacist/Index"><i class="fas fa-home"></i> Dashboard</a>
+    <a href="/Pharmacist/LoadPrescription" class="active"><i class="fas fa-upload"></i> Load Prescription</a>
+}
+
+<div class="container">
+    <h1><i class="fas fa-file-medical"></i> Load Prescription</h1>
+    <hr>
+
+    <div class="card">
+        <div class="card-body">
+            <form method="post" enctype="multipart/form-data">
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Patient ID Number</label>
+                        <input type="text" class="form-control" asp-for="PatientIdNumber" required>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Doctor</label>
+                        <select class="form-control" asp-for="DoctorId" required>
+                            <option value="">-- Select Doctor --</option>
+                            @foreach (var doctor in ViewBag.Doctors)
+                            {
+                                <option value="@doctor.Id">@doctor.FirstName @doctor.LastName</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Prescription Date</label>
+                        <input type="date" class="form-control" asp-for="PrescriptionDate" required>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Prescription PDF</label>
+                        <input type="file" class="form-control" asp-for="PrescriptionPdf" accept=".pdf">
+                    </div>
+                </div>
+
+                <hr>
+
+                <h5>Prescription Items</h5>
+                <div id="itemsContainer">
+                    <div class="prescription-item mb-3">
+                        <div class="row">
+                            <div class="col-md-3 mb-2">
+                                <label class="form-label">Medication</label>
+                                <input type="text" class="form-control" placeholder="Medication name" required>
+                            </div>
+                            <div class="col-md-2 mb-2">
+                                <label class="form-label">Qty</label>
+                                <input type="number" class="form-control" placeholder="Quantity" required>
+                            </div>
+                            <div class="col-md-3 mb-2">
+                                <label class="form-label">Instructions</label>
+                                <input type="text" class="form-control" placeholder="e.g., 3 times daily" required>
+                            </div>
+                            <div class="col-md-2 mb-2">
+                                <label class="form-label">Repeats</label>
+                                <input type="number" class="form-control" placeholder="Number of repeats" required>
+                            </div>
+                            <div class="col-md-2 mb-2">
+                                <label class="form-label">&nbsp;</label>
+                                <button type="button" class="btn btn-danger w-100" onclick="removeItem(this)">Remove</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="button" class="btn btn-secondary mb-3" onclick="addItem()"><i class="fas fa-plus"></i> Add Item</button>
+
+                <hr>
+
+                <div class="text-end">
+                    <a href="/Pharmacist/Index" class="btn btn-secondary">Cancel</a>
+                    <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Load Prescription</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    function addItem() {
+        const container = document.getElementById('itemsContainer');
+        const html = `
+            <div class="prescription-item mb-3">
+                <div class="row">
+                    <div class="col-md-3 mb-2">
+                        <input type="text" class="form-control" placeholder="Medication name" required>
+                    </div>
+                    <div class="col-md-2 mb-2">
+                        <input type="number" class="form-control" placeholder="Quantity" required>
+                    </div>
+                    <div class="col-md-3 mb-2">
+                        <input type="text" class="form-control" placeholder="Instructions" required>
+                    </div>
+                    <div class="col-md-2 mb-2">
+                        <input type="number" class="form-control" placeholder="Repeats" required>
+                    </div>
+                    <div class="col-md-2 mb-2">
+                        <button type="button" class="btn btn-danger w-100" onclick="removeItem(this)">Remove</button>
+                    </div>
+                </div>
+            </div>
+        `;
+        container.insertAdjacentHTML('beforeend', html);
+    }
+
+    function removeItem(btn) {
+        btn.closest('.prescription-item').remove();
+    }
+</script>

@@ -1,0 +1,93 @@
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Manager Dashboard";
+}
+
+@section Sidebar {
+    <h5 class="mb-4">Manager Menu</h5>
+    <a href="/Manager/Index" class="active"><i class="fas fa-home"></i> Dashboard</a>
+    <a href="/Manager/PharmacyDetails"><i class="fas fa-hospital"></i> Pharmacy Details</a>
+    <a href="/Manager/ManageMedications"><i class="fas fa-pills"></i> Medications</a>
+    <a href="/Manager/ManageActiveIngredients"><i class="fas fa-flask"></i> Active Ingredients</a>
+    <a href="/Manager/ManageDosageForms"><i class="fas fa-vial"></i> Dosage Forms</a>
+    <a href="/Manager/ManageSuppliers"><i class="fas fa-truck"></i> Suppliers</a>
+    <a href="/Manager/ManageDoctors"><i class="fas fa-user-md"></i> Doctors</a>
+    <a href="/Manager/ManagePharmacists"><i class="fas fa-stethoscope"></i> Pharmacists</a>
+    <a href="/Manager/LowStockMedications"><i class="fas fa-warning"></i> Low Stock</a>
+    <a href="/Manager/StockOrders"><i class="fas fa-shopping-cart"></i> Stock Orders</a>
+}
+
+<div class="container">
+    <h1><i class="fas fa-tachometer-alt"></i> Pharmacy Manager Dashboard</h1>
+    <hr>
+
+    <div class="row">
+        <div class="col-md-3 mb-4">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h2 style="color: #667eea;"><i class="fas fa-pills"></i></h2>
+                    <h5>Medications</h5>
+                    <p class="text-muted">Manage medications</p>
+                    <a href="/Manager/ManageMedications" class="btn btn-sm btn-primary">Manage</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-4">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h2 style="color: #667eea;"><i class="fas fa-truck"></i></h2>
+                    <h5>Stock Orders</h5>
+                    <p class="text-muted">View orders</p>
+                    <a href="/Manager/StockOrders" class="btn btn-sm btn-primary">View</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-4">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h2 style="color: #667eea;"><i class="fas fa-warning"></i></h2>
+                    <h5>Low Stock</h5>
+                    <p class="text-muted">Items below reorder level</p>
+                    <a href="/Manager/LowStockMedications" class="btn btn-sm btn-primary">Check</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-4">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h2 style="color: #667eea;"><i class="fas fa-print"></i></h2>
+                    <h5>Stock Take</h5>
+                    <p class="text-muted">Generate report</p>
+                    <a href="#" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#reportModal">Generate</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="reportModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Generate Stock Take Report</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form action="/Manager/GenerateStockTakeReport" method="get">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Group By</label>
+                        <select class="form-control" name="groupBy">
+                            <option value="dosage">Dosage Form</option>
+                            <option value="schedule">Schedule</option>
+                            <option value="supplier">Supplier</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Generate PDF</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

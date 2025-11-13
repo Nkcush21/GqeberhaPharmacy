@@ -1,0 +1,120 @@
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Customer Dashboard";
+}
+
+@section Sidebar {
+    <h5 class="mb-4">Customer Menu</h5>
+    <a href="/Customer/Index" class="active"><i class="fas fa-home"></i> Dashboard</a>
+    <a href="/Customer/UploadPrescription"><i class="fas fa-upload"></i> Upload Prescription</a>
+    <a href="/Customer/MyOrders"><i class="fas fa-shopping-bag"></i> My Orders</a>
+    <a href="/Customer/ViewRepeats"><i class="fas fa-redo"></i> Manage Repeats</a>
+    <a href="#" data-bs-toggle="modal" data-bs-target="#reportModal"><i class="fas fa-print"></i> Generate Report</a>
+    <a href="/Customer/MyProfile"><i class="fas fa-user"></i> My Profile</a>
+}
+
+<div class="container">
+    <h1><i class="fas fa-user"></i> Customer Dashboard</h1>
+    <hr>
+
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h5><i class="fas fa-file-medical"></i> Upload Prescription</h5>
+                </div>
+                <div class="card-body">
+                    <p>Upload your prescriptions for processing and collection.</p>
+                    <a href="/Customer/UploadPrescription" class="btn btn-primary"><i class="fas fa-plus"></i> Upload Prescription</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h5><i class="fas fa-shopping-bag"></i> My Orders</h5>
+                </div>
+                <div class="card-body">
+                    <p>View your medication orders and collection status.</p>
+                    <a href="/Customer/MyOrders" class="btn btn-primary"><i class="fas fa-list"></i> View Orders</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <h3>Recent Prescriptions</h3>
+    <div class="table-responsive">
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Doctor</th>
+                    <th>Date</th>
+                    <th>Items</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Count == 0)
+                {
+                    <tr>
+                        <td colspan="6" class="text-center">No prescriptions yet</td>
+                    </tr>
+                }
+                else
+                {
+                    @foreach (var prescription in Model)
+                    {
+                        <tr>
+                            <td>@prescription.Id.Substring(0, 8)</td>
+                            <td>@prescription.Doctor?.FirstName @prescription.Doctor?.LastName</td>
+                            <td>@prescription.PrescriptionDate.ToString("dd/MM/yyyy")</td>
+                            <td>@prescription.Items.Count</td>
+                            <td>
+                                @if (prescription.Status == 0) { <span class="badge bg-warning">Pending</span> }
+                                @if (prescription.Status == 1) { <span class="badge bg-info">Approved</span> }
+                                @if (prescription.Status == 2) { <span class="badge bg-success">Dispensed</span> }
+                            </td>
+                            <td><a href="/Customer/OrderDetail/@prescription.Id" class="btn btn-sm btn-outline-primary">View</a></td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="modal fade" id="reportModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Generate Prescriptions Report</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form action="/Customer/GenerateReport" method="get">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">From Date</label>
+                        <input type="date" class="form-control" name="fromDate" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">To Date</label>
+                        <input type="date" class="form-control" name="toDate" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Group By</label>
+                        <select class="form-control" name="groupBy">
+                            <option value="medication">Medication</option>
+                            <option value="doctor">Doctor</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Generate PDF</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

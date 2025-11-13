@@ -1,0 +1,118 @@
+@model List<GqeberhaPharmacy.Models.Medication>
+
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Manage Medications";
+}
+
+@section Sidebar {
+    <h5 class="mb-4">Manager Menu</h5>
+    <a href="/Manager/Index"><i class="fas fa-home"></i> Dashboard</a>
+    <a href="/Manager/ManageMedications" class="active"><i class="fas fa-pills"></i> Medications</a>
+    <a href="/Manager/ManageActiveIngredients"><i class="fas fa-flask"></i> Ingredients</a>
+}
+
+<div class="container">
+    <h1><i class="fas fa-pills"></i> Manage Medications</h1>
+    <hr>
+
+    <div class="card mb-4">
+        <div class="card-header bg-primary text-white">
+            <h5><i class="fas fa-plus"></i> Add New Medication</h5>
+        </div>
+        <div class="card-body">
+            <form id="medicationForm" method="post" action="/Manager/CreateMedication">
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Medication Name</label>
+                        <input type="text" class="form-control" name="Name" required>
+                    </div>
+                    <div class="col-md-2 mb-3">
+                        <label class="form-label">Schedule (0-6)</label>
+                        <input type="number" class="form-control" name="Schedule" min="0" max="6" required>
+                    </div>
+                    <div class="col-md-2 mb-3">
+                        <label class="form-label">Sales Price</label>
+                        <input type="number" step="0.01" class="form-control" name="SalesPrice" required>
+                    </div>
+                    <div class="col-md-2 mb-3">
+                        <label class="form-label">Reorder Level</label>
+                        <input type="number" class="form-control" name="ReorderLevel" required>
+                    </div>
+                    <div class="col-md-2 mb-3">
+                        <label class="form-label">Qty on Hand</label>
+                        <input type="number" class="form-control" name="QuantityOnHand" required>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary"><i class="fas fa-plus"></i> Add Medication</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Schedule</th>
+                    <th>Price</th>
+                    <th>Qty on Hand</th>
+                    <th>Reorder Level</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Count == 0)
+                {
+                    <tr>
+                        <td colspan="7" class="text-center">No medications found</td>
+                    </tr>
+                }
+                else
+                {
+                    @foreach (var med in Model)
+                    {
+                        <tr>
+                            <td>@med.Name</td>
+                            <td>@med.Schedule</td>
+                            <td>R@med.SalesPrice.ToString("F2")</td>
+                            <td>@med.QuantityOnHand</td>
+                            <td>@med.ReorderLevel</td>
+                            <td>
+                                @if (med.QuantityOnHand <= med.ReorderLevel)
+                                {
+                                    <span class="badge bg-danger">Low Stock</span>
+                                }
+                                else if (med.QuantityOnHand <= med.ReorderLevel + 10)
+                                {
+                                    <span class="badge bg-warning">Warning</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-success">OK</span>
+                                }
+                            </td>
+                            <td>
+                                <button class="btn btn-sm btn-outline-primary" onclick="editMedication('@med.Id')">Edit</button>
+                                <button class="btn btn-sm btn-outline-danger" onclick="deleteMedication('@med.Id')">Delete</button>
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    function editMedication(id) {
+        alert('Edit functionality - ID: ' + id);
+    }
+
+    function deleteMedication(id) {
+        if (confirm('Are you sure?')) {
+            alert('Delete functionality - ID: ' + id);
+        }
+    }
+</script>

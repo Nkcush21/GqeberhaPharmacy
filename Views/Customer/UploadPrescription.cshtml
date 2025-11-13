@@ -1,0 +1,66 @@
+@model GqeberhaPharmacy.Controllers.UploadPrescriptionViewModel
+
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Upload Prescription";
+}
+
+@section Sidebar {
+    <h5 class="mb-4">Customer Menu</h5>
+    <a href="/Customer/Index"><i class="fas fa-home"></i> Dashboard</a>
+    <a href="/Customer/UploadPrescription" class="active"><i class="fas fa-upload"></i> Upload Prescription</a>
+    <a href="/Customer/MyOrders"><i class="fas fa-shopping-bag"></i> My Orders</a>
+}
+
+<div class="container">
+    <h1><i class="fas fa-file-upload"></i> Upload Prescription</h1>
+    <hr>
+
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-body">
+                    <form method="post" enctype="multipart/form-data">
+                        <div class="mb-3">
+                            <label class="form-label"><i class="fas fa-file-pdf"></i> Prescription PDF File</label>
+                            <input type="file" class="form-control" asp-for="PrescriptionPdf" accept=".pdf" required>
+                            <small class="form-text text-muted">Upload a PDF copy of your prescription from your doctor</small>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Notes (Optional)</label>
+                            <textarea class="form-control" asp-for="Notes" rows="3" placeholder="Any special instructions or notes..."></textarea>
+                        </div>
+
+                        <div class="alert alert-info">
+                            <i class="fas fa-info-circle"></i> <strong>Note:</strong> Your prescription will be reviewed by our pharmacist. You will receive an email when it's ready for collection.
+                        </div>
+
+                        <div class="text-end">
+                            <a href="/Customer/Index" class="btn btn-secondary">Cancel</a>
+                            <button type="submit" class="btn btn-primary"><i class="fas fa-upload"></i> Upload Prescription</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card bg-light">
+                <div class="card-header bg-primary text-white">
+                    <h5><i class="fas fa-check"></i> What Happens Next?</h5>
+                </div>
+                <div class="card-body">
+                    <ol>
+                        <li>Upload your prescription PDF</li>
+                        <li>Our pharmacist reviews it</li>
+                        <li>We check our stock</li>
+                        <li>You receive an email when ready</li>
+                        <li>Collect at the pharmacy</li>
+                        <li>Pay upon collection</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
